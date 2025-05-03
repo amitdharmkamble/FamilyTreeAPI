@@ -1,0 +1,15 @@
+@FamilyTreeAPI_HostAddress = https://localhost:7159
+
+
+@name=string
+POST {{FamilyTreeAPI_HostAddress}}/createfamilytree?name=Amit
+
+###
+
+GET {{FamilyTreeAPI_HostAddress}}/
+
+###
+
+GET {{FamilyTreeAPI_HostAddress}}/createcreator?firstName=Amit&lastname=Dharmkamble
+
+###
