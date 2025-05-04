@@ -1,19 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FamilyTreeAPI.Services.Interfaces;
+using FamilyTreeAPI.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FamilyTreeAPI.Controllers
 {
     [ApiController]
-    [Route("/createcreator")]
+    [Route("/creator")]
     public class CreatorController
     {
-        [HttpGet]
-        public object CreateCreator(string firstName, string LastName, DateTime DateOfBirth)
+        private readonly ICreatorService _creatorService;
+        public CreatorController(ICreatorService creatorService)
         {
-            var creatorExist = new
-            {
-                creatorExists = false
-            };
-            return creatorExist;
+            _creatorService = creatorService;
+        }
+
+        [HttpGet]
+        [Route("/create")]
+        public async Task<IActionResult> CreateCreator(CreateCreatorRequest createCreatorRequest)
+        {
+            bool isCreatorCreated = await _creatorService.AddCreatorAsync(createCreatorRequest);
+            return new JsonResult(isCreatorCreated);
         }
     }
 }

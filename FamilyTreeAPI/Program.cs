@@ -1,4 +1,10 @@
 
+using FamilyTreeAPI.Contexts;
+using FamilyTreeAPI.Repositories;
+using FamilyTreeAPI.Repositories.Interfaces;
+using FamilyTreeAPI.Services;
+using FamilyTreeAPI.Services.Interfaces;
+using FamilyTreeAPI.ViewModels;
 using Microsoft.OpenApi;
 
 namespace FamilyTreeAPI
@@ -14,18 +20,20 @@ namespace FamilyTreeAPI
             {
                 options.AddPolicy("AllowPort4200", policy =>
                 {
-                    policy.WithOrigins("http://localhost:4200")
+                    policy.WithOrigins("https://localhost:4200")
                           .AllowAnyHeader()
                           .AllowAnyMethod();
                 });
             });
 
-            builder.Services.AddControllers();
 
             builder.Services.AddOpenApi(options =>
             {
                 options.OpenApiVersion = OpenApiSpecVersion.OpenApi2_0;
             });
+
+            builder.Services.AddScoped<ICreatorRepo, CreatorRepo>();
+            builder.Services.AddScoped<ICreatorService, CreatorService>();
 
             var app = builder.Build();
 
@@ -39,15 +47,17 @@ namespace FamilyTreeAPI
 
             app.MapGet("/", () => "Hello, World!");
 
-            app.MapPost("/createfamilytree", (string name) =>
-            {
-                Console.WriteLine(name);
-                return Results.Ok($"Family tree '{name}' created.");
-            });
+            var todoItems = app.MapGroup("/api");
 
-            app.MapControllers();
+            todoItems.MapPost("/createcreator", CreateCreator);
+
 
             app.Run();
+        }
+
+        private static Task<IResult> CreateCreator(CreateCreatorRequest request, CreateCreatorRequest response)
+        {
+            throw new NotImplementedException();
         }
     }
 }
