@@ -2,6 +2,6 @@
 {
     public interface ICreatorRepo
     {
-        Task AddCreatorAsync(Models.Creator creator);
+        Task<Guid> AddCreatorAsync(Models.Creator creator);
     }
 }

@@ -4,6 +4,6 @@ namespace FamilyTreeAPI.Services.Interfaces
 {
     public interface ICreatorService
     {
-        Task<bool> AddCreatorAsync(CreateCreatorRequest createCreatorRequest);
+        Task<Guid> AddCreatorAsync(CreateCreatorRequest createCreatorRequest);
     }
 }

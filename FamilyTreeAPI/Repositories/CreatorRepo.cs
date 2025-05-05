@@ -15,7 +15,7 @@ namespace FamilyTreeAPI.Repositories
         {
             _context = context;
         }
-        public Task AddCreatorAsync(Creator creator)
+        public Task<Guid> AddCreatorAsync(Creator creator)
         {
             try
             {
@@ -24,6 +24,7 @@ namespace FamilyTreeAPI.Repositories
                     _context.Creators.Add(creator);
                     _context.SaveChanges();
                     transactionScope.Commit();
+                    _creatorId = creator.Id;
                 }
             }
             catch (Exception ex)
@@ -31,7 +32,7 @@ namespace FamilyTreeAPI.Repositories
                 Console.WriteLine($"An error occurred while creating creator. \n: {ex.Message}");
             }
 
-            return Task.CompletedTask;
+            return Task.FromResult(_creatorId);
         }
     }
 }
