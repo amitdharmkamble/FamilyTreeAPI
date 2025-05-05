@@ -13,3 +13,15 @@ GET {{FamilyTreeAPI_HostAddress}}/
 GET {{FamilyTreeAPI_HostAddress}}/createcreator?firstName=Amit&lastname=Dharmkamble
 
 ###
+
+GET {{FamilyTreeAPI_HostAddress}}/createcreator
+
+###
+
+GET {{FamilyTreeAPI_HostAddress}}/Create
+
+###
+
+POST {{FamilyTreeAPI_HostAddress}}/api/createPerson?firstName=Amit&lastname=Dharmkamble
+
+###

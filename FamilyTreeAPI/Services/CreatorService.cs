@@ -1,40 +1,39 @@
 ﻿using FamilyTreeAPI.Models;
 using FamilyTreeAPI.Repositories.Interfaces;
 using FamilyTreeAPI.Services.Interfaces;
+using FamilyTreeAPI.ViewModels;
 
 namespace FamilyTreeAPI.Services
 {
     public class CreatorService : ICreatorService
     {
         private readonly ICreatorRepo _cretorRepo;
+
         public CreatorService(ICreatorRepo _cretorRepo) 
         {
             this._cretorRepo = _cretorRepo;
         }
 
-        public Task AddCreatorAsync(Creator creator)
+        public async Task<bool> AddCreatorAsync(CreateCreatorRequest createCreatorRequest)
         {
-            return _cretorRepo.AddCreatorAsync(creator);
-        }
+            try
+            {
+                await _cretorRepo.AddCreatorAsync(new Creator
+                {
+                    Id = Guid.NewGuid(),
+                    FirstName = createCreatorRequest.FirstName,
+                    LastName = createCreatorRequest.LastName,
+                    DateOfBirth = null,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                });
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
 
-        public Task DeleteCreatorAsync(Guid id)
-        {
-            return _cretorRepo.DeleteCreatorAsync(id);
-        }
-
-        public Task<List<Creator>> GetAllCreatorsAsync()
-        {
-            return _cretorRepo.GetAllCreatorsAsync();
-        }
-
-        public Task<Creator?> GetCreatorByIdAsync(Guid id)
-        {
-            return _cretorRepo.GetCreatorByIdAsync(id);
-        }
-
-        public Task UpdateCreatorAsync(Creator creator)
-        {
-            return _cretorRepo.UpdateCreatorAsync(creator);
         }
     }
 }

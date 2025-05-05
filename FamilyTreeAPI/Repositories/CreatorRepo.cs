@@ -1,24 +1,34 @@
-﻿using FamilyTreeAPI.Contexts;
+﻿using System.Linq;
+using FamilyTreeAPI.Contexts;
 using FamilyTreeAPI.Models;
 using FamilyTreeAPI.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace FamilyTreeAPI.Repositories
 {
     public class CreatorRepo : ICreatorRepo
     {
+        private readonly Guid _creatorId;
         private readonly CreatorContext _context;
+        private readonly Creator[] _creators = new Creator[100];
         public CreatorRepo(CreatorContext context)
         {
             _context = context;
         }
-        public async Task<List<Creator>> GetAllCreatorsAsync()
+        public Task<List<Creator>> GetAllCreatorsAsync()
         {
-            return await _context.Creators.ToListAsync();
+            var creators = _creators.ToList();
+            return Task.FromResult(creators);
         }
-        public async Task<Creator?> GetCreatorByIdAsync(Guid id)
+        public Task<Creator?> GetCreatorByIdAsync(Guid id)
         {
-            return await _context.Creators.FindAsync(id);
+            var creator = _creators.FirstOrDefault(c => c.Id == id);
+            if (creator == null && _creatorId != Guid.Empty)
+            {
+                creator =  _creators.FirstOrDefault(c => c.Id == _creatorId);
+            }
+            return Task.FromResult(creator);
         }
         public async Task AddCreatorAsync(Creator creator)
         {
