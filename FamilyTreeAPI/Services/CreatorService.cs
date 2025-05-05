@@ -14,11 +14,11 @@ namespace FamilyTreeAPI.Services
             this._cretorRepo = _cretorRepo;
         }
 
-        public async Task<bool> AddCreatorAsync(CreateCreatorRequest createCreatorRequest)
+        public async Task<Guid> AddCreatorAsync(CreateCreatorRequest createCreatorRequest)
         {
             try
             {
-                await _cretorRepo.AddCreatorAsync(new Creator
+                Guid createdCreatorId = await _cretorRepo.AddCreatorAsync(new Creator
                 {
                     Id = Guid.NewGuid(),
                     FirstName = createCreatorRequest.FirstName,
@@ -28,11 +28,11 @@ namespace FamilyTreeAPI.Services
                     UpdatedAt = DateTime.UtcNow
                 });
 
-                return true;
+                return createdCreatorId;
             }
             catch (Exception)
             {
-                return false;
+                return Guid.Empty;
             }
 
         }

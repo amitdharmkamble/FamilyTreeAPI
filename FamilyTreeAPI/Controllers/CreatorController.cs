@@ -18,8 +18,8 @@ namespace FamilyTreeAPI.Controllers
         [Route("/create")]
         public async Task<IActionResult> CreateCreator(CreateCreatorRequest createCreatorRequest)
         {
-            bool isCreatorCreated = await _creatorService.AddCreatorAsync(createCreatorRequest);
-            return new JsonResult(isCreatorCreated);
+            Guid createdCreatorId = await _creatorService.AddCreatorAsync(createCreatorRequest);
+            return new JsonResult(createdCreatorId);
         }
     }
 }

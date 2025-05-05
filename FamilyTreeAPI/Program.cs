@@ -20,7 +20,7 @@ namespace FamilyTreeAPI
             {
                 options.AddPolicy("AllowPort4200", policy =>
                 {
-                    policy.WithOrigins("https://localhost:4200")
+                    policy.WithOrigins("http://localhost:4200")
                           .AllowAnyHeader()
                           .AllowAnyMethod();    
                 });
@@ -59,9 +59,9 @@ namespace FamilyTreeAPI
                 CreateCreatorRequest request = new CreateCreatorRequest();
                 request.FirstName = firstName;
                 request.LastName = lastName;
-                var result = await service.AddCreatorAsync(request);
-                return result
-                    ? Results.Ok(new { Message = "Creator created successfully." })
+                Guid result = await service.AddCreatorAsync(request);
+                return result != Guid.Empty
+                    ? Results.Ok(new { Message = "Creator created successfully.", CreatedCreatorId = result })
                     : Results.BadRequest(new { Message = "Creation failed." });
             });
 
