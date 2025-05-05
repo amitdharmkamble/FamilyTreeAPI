@@ -23,10 +23,11 @@ namespace FamilyTreeAPI.Services
                     Id = Guid.NewGuid(),
                     FirstName = createCreatorRequest.FirstName,
                     LastName = createCreatorRequest.LastName,
-                    DateOfBirth = null,
+                    DateOfBirth = createCreatorRequest.DateOfBirth,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 });
+
                 return true;
             }
             catch (Exception)

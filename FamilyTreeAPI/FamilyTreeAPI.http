@@ -10,7 +10,7 @@ GET {{FamilyTreeAPI_HostAddress}}/
 
 ###
 
-GET {{FamilyTreeAPI_HostAddress}}/createcreator?firstName=Amit&lastname=Dharmkamble
+POST {{FamilyTreeAPI_HostAddress}}/api/createcreator?firstName=Amit&lastname=Dharmkamble
 
 ###
 

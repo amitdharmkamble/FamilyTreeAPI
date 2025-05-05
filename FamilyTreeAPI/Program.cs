@@ -1,10 +1,11 @@
-
 using FamilyTreeAPI.Contexts;
 using FamilyTreeAPI.Repositories;
 using FamilyTreeAPI.Repositories.Interfaces;
 using FamilyTreeAPI.Services;
 using FamilyTreeAPI.Services.Interfaces;
 using FamilyTreeAPI.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 
 namespace FamilyTreeAPI
@@ -15,14 +16,13 @@ namespace FamilyTreeAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowPort4200", policy =>
                 {
                     policy.WithOrigins("https://localhost:4200")
                           .AllowAnyHeader()
-                          .AllowAnyMethod();
+                          .AllowAnyMethod();    
                 });
             });
 
@@ -32,8 +32,13 @@ namespace FamilyTreeAPI
                 options.OpenApiVersion = OpenApiSpecVersion.OpenApi2_0;
             });
 
+            builder.Services.AddDbContext<CreatorContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("localDbConnection")));
+
             builder.Services.AddScoped<ICreatorRepo, CreatorRepo>();
             builder.Services.AddScoped<ICreatorService, CreatorService>();
+
+            builder.Services.AddAuthorization();
 
             var app = builder.Build();
 
@@ -47,17 +52,22 @@ namespace FamilyTreeAPI
 
             app.MapGet("/", () => "Hello, World!");
 
-            var todoItems = app.MapGroup("/api");
+            var creatorItems = app.MapGroup("/api");
 
-            todoItems.MapPost("/createcreator", CreateCreator);
+            creatorItems.MapPost("/createcreator", async (string firstName, string lastName, ICreatorService service) =>
+            {
+                CreateCreatorRequest request = new CreateCreatorRequest();
+                request.FirstName = firstName;
+                request.LastName = lastName;
+                var result = await service.AddCreatorAsync(request);
+                return result
+                    ? Results.Ok(new { Message = "Creator created successfully." })
+                    : Results.BadRequest(new { Message = "Creation failed." });
+            });
 
 
             app.Run();
         }
 
-        private static Task<IResult> CreateCreator(CreateCreatorRequest request, CreateCreatorRequest response)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -9,45 +9,29 @@ namespace FamilyTreeAPI.Repositories
 {
     public class CreatorRepo : ICreatorRepo
     {
-        private readonly Guid _creatorId;
+        private static Guid _creatorId;
         private readonly CreatorContext _context;
-        private readonly Creator[] _creators = new Creator[100];
         public CreatorRepo(CreatorContext context)
         {
             _context = context;
         }
-        public Task<List<Creator>> GetAllCreatorsAsync()
+        public Task AddCreatorAsync(Creator creator)
         {
-            var creators = _creators.ToList();
-            return Task.FromResult(creators);
-        }
-        public Task<Creator?> GetCreatorByIdAsync(Guid id)
-        {
-            var creator = _creators.FirstOrDefault(c => c.Id == id);
-            if (creator == null && _creatorId != Guid.Empty)
+            try
             {
-                creator =  _creators.FirstOrDefault(c => c.Id == _creatorId);
+                using (var transactionScope = _context.Database.BeginTransaction())
+                {
+                    _context.Creators.Add(creator);
+                    _context.SaveChanges();
+                    transactionScope.Commit();
+                }
             }
-            return Task.FromResult(creator);
-        }
-        public async Task AddCreatorAsync(Creator creator)
-        {
-            await _context.Creators.AddAsync(creator);
-            await _context.SaveChangesAsync();
-        }
-        public async Task UpdateCreatorAsync(Creator creator)
-        {
-            _context.Creators.Update(creator);
-            await _context.SaveChangesAsync();
-        }
-        public async Task DeleteCreatorAsync(Guid id)
-        {
-            var creator = await GetCreatorByIdAsync(id);
-            if (creator != null)
-            {
-                _context.Creators.Remove(creator);
-                await _context.SaveChangesAsync();
+            catch (Exception ex)
+            { 
+                Console.WriteLine($"An error occurred while creating creator. \n: {ex.Message}");
             }
+
+            return Task.CompletedTask;
         }
     }
 }
