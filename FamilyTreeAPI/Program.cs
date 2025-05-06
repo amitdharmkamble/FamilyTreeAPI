@@ -65,6 +65,14 @@ namespace FamilyTreeAPI
                     : Results.BadRequest(new { Message = "Creation failed." });
             });
 
+            creatorItems.MapGet("/getcreator/{id}", async (Guid id, ICreatorService service) =>
+            {
+                var creator = await service.GetCreatorByIdAsync(id);
+                return creator.Id != Guid.Empty
+                    ? Results.Ok(creator)
+                    : Results.NotFound(new { Message = "Creator not found." });
+            });
+
 
             app.Run();
         }
