@@ -47,9 +47,7 @@ namespace FamilyTreeAPI.Services
                     Id = creatorEntity.Id,
                     FirstName = creatorEntity.FirstName,
                     LastName = creatorEntity.LastName,
-                    DateOfBirth = creatorEntity.DateOfBirth,
-                    CreatedAt = creatorEntity.CreatedAt,
-                    UpdatedAt = creatorEntity.UpdatedAt
+                    DateOfBirth = creatorEntity.DateOfBirth
                 };
                 return creatorResponse;
             }
