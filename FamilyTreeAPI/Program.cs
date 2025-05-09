@@ -4,7 +4,6 @@ using FamilyTreeAPI.Repositories.Interfaces;
 using FamilyTreeAPI.Services;
 using FamilyTreeAPI.Services.Interfaces;
 using FamilyTreeAPI.ViewModels;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 
@@ -16,29 +15,7 @@ namespace FamilyTreeAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowPort4200", policy =>
-                {
-                    policy.WithOrigins("http://localhost:4200")
-                          .AllowAnyHeader()
-                          .AllowAnyMethod();    
-                });
-            });
-
-
-            builder.Services.AddOpenApi(options =>
-            {
-                options.OpenApiVersion = OpenApiSpecVersion.OpenApi2_0;
-            });
-
-            builder.Services.AddDbContext<CreatorContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("localDbConnection")));
-
-            builder.Services.AddScoped<ICreatorRepo, CreatorRepo>();
-            builder.Services.AddScoped<ICreatorService, CreatorService>();
-
-            builder.Services.AddAuthorization();
+            ConfigureServices(builder);
 
             var app = builder.Build();
 
@@ -76,6 +53,38 @@ namespace FamilyTreeAPI
 
             app.Run();
         }
+        private static void ConfigureServices(WebApplicationBuilder builder)
+        {
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowPort4200", policy =>
+                {
+                    policy.WithOrigins("http://localhost:4200")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
 
+            builder.Services.AddOpenApi(options =>
+            {
+                options.OpenApiVersion = OpenApiSpecVersion.OpenApi2_0;
+            });
+
+            builder.Services.AddDbContext<CreatorContext>( options =>
+                options.UseSqlServer(SetConnectionString(builder))
+            );
+            builder.Services.AddDbContext<FamilyTreeContext>(options =>
+                options.UseSqlServer(SetConnectionString(builder))
+            );
+            builder.Services.AddScoped<ICreatorRepo, CreatorRepo>();
+            builder.Services.AddScoped<ICreatorService, CreatorService>();
+
+            builder.Services.AddAuthorization();
+        }
+
+        private static string? SetConnectionString(WebApplicationBuilder builder)
+        {
+            return builder.Configuration.GetConnectionString("localDbConnection");
+        }
     }
 }
