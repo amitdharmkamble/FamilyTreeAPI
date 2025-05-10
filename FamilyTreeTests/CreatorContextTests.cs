@@ -1,4 +1,5 @@
 ﻿using FamilyTreeAPI.Contexts;
+using FamilyTreeAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,21 +29,18 @@ namespace FamilyTreeTests
             {
                 Assert.NotNull(context);
                 Guid _creatorId = Guid.Empty;
-                if (context != null)
+                Creator creator = new Creator
                 {
-                    FamilyTreeAPI.Models.Creator creator = new FamilyTreeAPI.Models.Creator
-                    {
-                        Id = Guid.NewGuid(),
-                        FirstName = "Test Creator",
-                        LastName = "Test Last Name",
-                        CreatedAt = DateTime.UtcNow,
-                    };
-                    _creatorId = creator.Id;
-                    context.Add(creator);
-                    context.SaveChanges();
-                    var createdCreator = context.Creators.FirstOrDefault(c => c.Id == _creatorId);
-                    Assert.Equal(_creatorId, createdCreator?.Id);
-                }
+                    Id = Guid.NewGuid(),
+                    FirstName = "First Name",
+                    LastName = "Last Name",
+                    CreatedAt = DateTime.UtcNow,
+                };
+                _creatorId = creator.Id;
+                context.Add(creator);
+                context.SaveChanges();
+                var createdCreator = context.Creators.FirstOrDefault(c => c.Id == _creatorId);
+                Assert.Equal(_creatorId, createdCreator?.Id);
             }
         }
     }

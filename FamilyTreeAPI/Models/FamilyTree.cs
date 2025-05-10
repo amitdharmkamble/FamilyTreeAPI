@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FamilyTreeAPI.Models
 {
@@ -6,10 +7,9 @@ namespace FamilyTreeAPI.Models
     {
         [Key]
         public Guid Id { get; set; }
-        [Required]
-        public string Name { get; set; } = string.Empty;
-        [Required]
-        public Guid CreatorId { get; set; }
+        public required string Name { get; set; }
+        [NotNull]
+        public Guid CreatorTreeId { get; set; }
         [Required]
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

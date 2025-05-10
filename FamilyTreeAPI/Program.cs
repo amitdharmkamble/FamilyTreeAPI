@@ -71,10 +71,16 @@ namespace FamilyTreeAPI
             });
 
             builder.Services.AddDbContext<CreatorContext>( options =>
-                options.UseSqlServer(SetConnectionString(builder))
+                options.UseSqlServer(GetConnectionString(builder))
             );
             builder.Services.AddDbContext<FamilyTreeContext>(options =>
-                options.UseSqlServer(SetConnectionString(builder))
+                options.UseSqlServer(GetConnectionString(builder))
+            );
+            builder.Services.AddDbContext<CreatorTreeContext>(options =>
+                options.UseSqlServer(GetConnectionString(builder))
+            );
+            builder.Services.AddDbContext<FamilyMemberContext>(options =>
+                options.UseSqlServer(GetConnectionString(builder))
             );
             builder.Services.AddScoped<ICreatorRepo, CreatorRepo>();
             builder.Services.AddScoped<ICreatorService, CreatorService>();
@@ -82,7 +88,7 @@ namespace FamilyTreeAPI
             builder.Services.AddAuthorization();
         }
 
-        private static string? SetConnectionString(WebApplicationBuilder builder)
+        private static string? GetConnectionString(WebApplicationBuilder builder)
         {
             return builder.Configuration.GetConnectionString("localDbConnection");
         }

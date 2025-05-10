@@ -1,4 +1,5 @@
 ﻿using FamilyTreeAPI.Contexts;
+using FamilyTreeAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -34,7 +35,8 @@ namespace FamilyTreeAPI.Tests
                     {
                         Id = Guid.NewGuid(),
                         CreatorId = Guid.NewGuid(),
-                        Name = "Test Creator Tree",
+                        FamilyTreeId = Guid.NewGuid(),
+                        FamilyTreeName = "Test Creator Tree",
                         CreatedAt = DateTime.UtcNow,
                     };
                     _creatorTreeId = creatorTree.Id;
