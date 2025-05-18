@@ -3,17 +3,17 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace FamilyTreeAPI.Models
 {
-    public class FamilyTree
+    public class FamilyTree : BaseAuditableEntity
     {
         [Key]
         public Guid Id { get; set; }
         public required string Name { get; set; }
-        [NotNull]
-        public Guid CreatorTreeId { get; set; }
-        [Required]
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
-        public Guid? RootNodeId { get; set; }
         public string? Description { get; set; }
+        public int MemberCount { get; set; }
+
+        [NotNull]
+        public required Guid CreatorTreeId { get; set; }
+        [NotNull]
+        public required Guid RootMemberId { get; set; } = Guid.Empty;
     }
 }

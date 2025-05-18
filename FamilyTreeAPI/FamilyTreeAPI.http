@@ -29,3 +29,7 @@ POST {{FamilyTreeAPI_HostAddress}}/api/createPerson?firstName=Amit&lastname=Dhar
 GET {{FamilyTreeAPI_HostAddress}}/api/getcreator/034efdf6-e72d-40b2-a105-113f703c85d3
 
 ###
+
+POST {{FamilyTreeAPI_HostAddress}}/api/createFamilyTree
+
+###

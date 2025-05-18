@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FamilyTreeAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class createcreatortable : Migration
+    public partial class Createcreatortable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -1,23 +1,22 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FamilyTreeAPI.Models
 {
-    public class FamilyMember
+    public class FamilyMember : BaseAuditableEntity
     {
         [Key]
         public Guid Id { get; set; }
-        [Required]
-        public Guid TreeId { get; set; }
-        [Required]
-        public string FirstName { get; set; } = string.Empty;
-        [Required]
-        public string LastName { get; set; } = string.Empty;
+        public required string FirstName { get; set; } = string.Empty;
+        public string? LastName { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public DateTime? DateOfDeath { get; set; }
-        public string Gender { get; set; } = string.Empty;
-        public Guid? ParentId { get; set; }
-        public Guid? SpouseId { get; set; }
-        public List<Guid> Children { get; set; } = new List<Guid>();
+        public required bool IsMale { get; set; }
+        public required bool IsFemale { get; set; }
         public string? Notes { get; set; }
+
+        public required Guid TreeId { get; set; }
+        public required List<BaseRelationsCounter> RelationCounters { get; set; }
+        public required List<BaseRelationNavigator> RelationNavigators { get; set; }
     }
 }

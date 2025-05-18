@@ -13,7 +13,7 @@ namespace FamilyTreeAPI.Migrations
 {
     [DbContext(typeof(CreatorContext))]
     [Migration("20250505154232_createcreatortable")]
-    partial class createcreatortable
+    partial class Createcreatortable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
