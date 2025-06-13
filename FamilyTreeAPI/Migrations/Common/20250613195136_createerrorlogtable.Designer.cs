@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FamilyTreeAPI.Migrations.Common
 {
     [DbContext(typeof(CommonContext))]
-    [Migration("20250613192712_createmoretables")]
-    partial class createmoretables
+    [Migration("20250613195136_createerrorlogtable")]
+    partial class createerrorlogtable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,11 +27,9 @@ namespace FamilyTreeAPI.Migrations.Common
 
             modelBuilder.Entity("FamilyTreeAPI.Models.ErrorLog", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");

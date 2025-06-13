@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FamilyTreeAPI.Migrations.Common
 {
     /// <inheritdoc />
-    public partial class createmoretables : Migration
+    public partial class createerrorlogtable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,8 +15,7 @@ namespace FamilyTreeAPI.Migrations.Common
                 name: "ErrorLogs",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StackTrace = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Path = table.Column<string>(type: "nvarchar(max)", nullable: false),
