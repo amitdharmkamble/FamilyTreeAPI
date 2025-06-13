@@ -25,9 +25,6 @@ namespace FamilyTreeAPI.Repositories
                 throw new ArgumentException("Invalid Creator Id");
 
             Creator creator = await GetCreatorByIdAsync(creatorId);
-            if (creator == null)
-                throw new Exception("Creator not found");
-
             CreatorTree creatorTree = await CreateCreatorTreeAsync(creator, creatorId, familyTreeName);
             FamilyTree familyTree = await CreateFamilyTreeRecordAsync(creatorTree, Description);
 
@@ -36,7 +33,10 @@ namespace FamilyTreeAPI.Repositories
 
         private async Task<Creator> GetCreatorByIdAsync(Guid creatorId)
         {
-            return await _creatorContext.Creators.FirstOrDefaultAsync(c => c.Id == creatorId) ?? new Creator();
+            var creator = await _creatorContext.Creators.FirstOrDefaultAsync(c => c.Id == creatorId);
+            if (creator == null)
+                throw new ArgumentException("Creator not found");
+            else return creator;
         }
 
         private async Task<CreatorTree> CreateCreatorTreeAsync(Creator creator, Guid creatorId, string requestedName)
