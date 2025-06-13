@@ -34,5 +34,16 @@ namespace FamilyTreeAPI.Repositories
 
             return Task.FromResult(_creatorId);
         }
+
+        public async Task<Creator> GetCreatorByIdAsync(Guid id)
+        {
+            return await _context.Creators
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Id == id) 
+                ?? new Creator()
+                {
+                    Id = Guid.Empty
+                };
+        }
     }
 }

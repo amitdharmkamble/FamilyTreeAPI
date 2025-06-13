@@ -9,7 +9,7 @@ namespace FamilyTreeAPI.Services
     {
         private readonly ICreatorRepo _cretorRepo;
 
-        public CreatorService(ICreatorRepo _cretorRepo) 
+        public CreatorService(ICreatorRepo _cretorRepo)
         {
             this._cretorRepo = _cretorRepo;
         }
@@ -23,9 +23,7 @@ namespace FamilyTreeAPI.Services
                     Id = Guid.NewGuid(),
                     FirstName = createCreatorRequest.FirstName,
                     LastName = createCreatorRequest.LastName,
-                    DateOfBirth = createCreatorRequest.DateOfBirth,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    DateOfBirth = createCreatorRequest.DateOfBirth
                 });
 
                 return createdCreatorId;
@@ -35,6 +33,26 @@ namespace FamilyTreeAPI.Services
                 return Guid.Empty;
             }
 
+        }
+
+        public async Task<CreatorResponse> GetCreatorByIdAsync(Guid id)
+        {
+            var creatorEntity = await _cretorRepo.GetCreatorByIdAsync(id);
+            if (creatorEntity.Id != Guid.Empty)
+            {
+                var creatorResponse = new CreatorResponse
+                {
+                    Id = creatorEntity.Id,
+                    FirstName = creatorEntity.FirstName,
+                    LastName = creatorEntity.LastName,
+                    DateOfBirth = creatorEntity.DateOfBirth
+                };
+                return creatorResponse;
+            }
+            else
+            {
+                return new CreatorResponse();
+            }
         }
     }
 }

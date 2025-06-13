@@ -1,27 +1,32 @@
 @FamilyTreeAPI_HostAddress = https://localhost:7159
 
-
-@name=string
-POST {{FamilyTreeAPI_HostAddress}}/createfamilytree?name=Amit
-
-###
-
 GET {{FamilyTreeAPI_HostAddress}}/
 
 ###
 
-POST {{FamilyTreeAPI_HostAddress}}/api/createcreator?firstName=Amit&lastname=Dharmkamble
+### Create Creator - POST
+POST {{FamilyTreeAPI_HostAddress}}/api/createcreator
+Content-Type: application/json
+
+{
+  "firstName": "Amit",
+  "lastName": "Dharmkamble",
+  "dateOfBirth": "1990-06-13T00:00:00"
+}
 
 ###
 
-GET {{FamilyTreeAPI_HostAddress}}/createcreator
+GET {{FamilyTreeAPI_HostAddress}}/api/getcreator/5db089df-7745-4d6c-b2d2-227a83a398c9
 
 ###
+### Create Family Tree - POST with JSON body
+POST {{FamilyTreeAPI_HostAddress}}/api/createFamilyTree
+Content-Type: application/json
 
-GET {{FamilyTreeAPI_HostAddress}}/Create
-
-###
-
-POST {{FamilyTreeAPI_HostAddress}}/api/createPerson?firstName=Amit&lastname=Dharmkamble
+{
+  "creatorId": "7E5D2D5D-2816-48FD-8993-2DEE25E4ACE5",
+  "familyTreeName": "Dharmkamble Family Tree",
+  "familyTreeDescription": "Dharmkamble Family Tree"
+}
 
 ###

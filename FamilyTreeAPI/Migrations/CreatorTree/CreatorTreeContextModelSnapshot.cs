@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FamilyTreeAPI.Migrations
+namespace FamilyTreeAPI.Migrations.CreatorTree
 {
-    [DbContext(typeof(CreatorContext))]
-    partial class CreatorContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(CreatorTreeContext))]
+    partial class CreatorTreeContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -22,7 +22,7 @@ namespace FamilyTreeAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("FamilyTreeAPI.Models.Creator", b =>
+            modelBuilder.Entity("FamilyTreeAPI.Models.CreatorTree", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -31,31 +31,22 @@ namespace FamilyTreeAPI.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DateOfBirth")
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("FamilyTreeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("FamilyTreeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime>("LastUpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Creators");
+                    b.ToTable("CreatorTrees");
                 });
 #pragma warning restore 612, 618
         }

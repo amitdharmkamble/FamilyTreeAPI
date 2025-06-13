@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FamilyTreeAPI.Migrations
+namespace FamilyTreeAPI.Migrations.CreatorTree
 {
-    [DbContext(typeof(CreatorContext))]
-    [Migration("20250505154232_createcreatortable")]
-    partial class Createcreatortable
+    [DbContext(typeof(CreatorTreeContext))]
+    [Migration("20250613183342_createmoretables")]
+    partial class createmoretables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace FamilyTreeAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("FamilyTreeAPI.Models.Creator", b =>
+            modelBuilder.Entity("FamilyTreeAPI.Models.CreatorTree", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -34,25 +34,22 @@ namespace FamilyTreeAPI.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DateOfBirth")
-                        .HasColumnType("datetime2");
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<Guid>("FamilyTreeId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("LastName")
+                    b.Property<string>("FamilyTreeName")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Creators");
+                    b.ToTable("CreatorTrees");
                 });
 #pragma warning restore 612, 618
         }

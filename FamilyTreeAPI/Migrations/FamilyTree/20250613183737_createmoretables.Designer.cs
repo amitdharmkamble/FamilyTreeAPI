@@ -4,16 +4,19 @@ using FamilyTreeAPI.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FamilyTreeAPI.Migrations
+namespace FamilyTreeAPI.Migrations.FamilyTree
 {
-    [DbContext(typeof(CreatorContext))]
-    partial class CreatorContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(FamilyTreeContext))]
+    [Migration("20250613183737_createmoretables")]
+    partial class createmoretables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace FamilyTreeAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("FamilyTreeAPI.Models.Creator", b =>
+            modelBuilder.Entity("FamilyTreeAPI.Models.FamilyTree", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -31,21 +34,24 @@ namespace FamilyTreeAPI.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DateOfBirth")
-                        .HasColumnType("datetime2");
+                    b.Property<Guid>("CreatorTreeId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("LastUpdatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("MemberCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("RootMemberId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -55,7 +61,7 @@ namespace FamilyTreeAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Creators");
+                    b.ToTable("FamilyTrees");
                 });
 #pragma warning restore 612, 618
         }
