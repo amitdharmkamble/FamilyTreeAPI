@@ -1,4 +1,5 @@
 using FamilyTreeAPI.Contexts;
+using FamilyTreeAPI.Middlewares;
 using FamilyTreeAPI.Repositories;
 using FamilyTreeAPI.Repositories.Interfaces;
 using FamilyTreeAPI.Services;
@@ -26,6 +27,8 @@ namespace FamilyTreeAPI
             app.UseCors("AllowPort4200");
 
             app.UseAuthorization();
+
+            app.UseMiddleware<ExceptionLoggingMiddleware>();
 
             app.MapGet("/", () => "Hello, World!");
 
@@ -86,6 +89,9 @@ namespace FamilyTreeAPI
                 options.UseSqlServer(GetConnectionString(builder))
             );
             builder.Services.AddDbContext<FamilyMemberContext>(options =>
+                options.UseSqlServer(GetConnectionString(builder))
+            );
+            builder.Services.AddDbContext<CommonContext>(options =>
                 options.UseSqlServer(GetConnectionString(builder))
             );
             
