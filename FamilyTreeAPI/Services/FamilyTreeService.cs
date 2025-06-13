@@ -21,7 +21,7 @@ namespace FamilyTreeAPI.Services
                 CreatorTreeId = familyTree.CreatorTreeId,
                 Description = familyTree.Description,
                 Id = familyTree.Id,
-                RootNodeId = familyTree.RootNodeId,
+                RootNodeId = CreatorId,
             };
         }
     }

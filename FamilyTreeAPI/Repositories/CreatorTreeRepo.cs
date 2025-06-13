@@ -19,7 +19,7 @@ namespace FamilyTreeAPI.Repositories
             _familyTreeContext = familyTreeContext;
         }
 
-        public async Task<FamilyTree> CreateFamilyTree(Guid creatorId, string familyTreeName)
+        public async Task<FamilyTree> CreateFamilyTree(Guid creatorId, string familyTreeName, string Description)
         {
             if (creatorId == Guid.Empty)
                 throw new ArgumentException("Invalid Creator Id");
@@ -29,7 +29,7 @@ namespace FamilyTreeAPI.Repositories
                 throw new Exception("Creator not found");
 
             CreatorTree creatorTree = await CreateCreatorTreeAsync(creator, creatorId, familyTreeName);
-            FamilyTree familyTree = await CreateFamilyTreeRecordAsync(creatorTree);
+            FamilyTree familyTree = await CreateFamilyTreeRecordAsync(creatorTree, Description);
 
             return familyTree ?? throw new Exception("Error while creating family tree");
         }
@@ -63,26 +63,40 @@ namespace FamilyTreeAPI.Repositories
             return savedCreatorTree ?? throw new Exception("Error while creating creator tree");
         }
 
-        private async Task<FamilyTree> CreateFamilyTreeRecordAsync(CreatorTree creatorTree)
+        private async Task<FamilyTree> CreateFamilyTreeRecordAsync(CreatorTree creatorTree, string description)
         {
             var familyTreeId = Guid.NewGuid();
-
-            var familyTree = new FamilyTree
+            try
             {
-                Id = familyTreeId,
-                Name = creatorTree.FamilyTreeName,
-                Description = "",
-                RowVersion = new byte[] { Byte.MinValue },
-                CreatedAt = DateTime.UtcNow,
-                LastUpdatedAt = DateTime.UtcNow,
-                CreatorTreeId = creatorTree.Id,
-                RootMemberId = creatorTree.Id
-            };
+                var familyTree = new FamilyTree
+                {
+                    Id = familyTreeId,
+                    Name = creatorTree.FamilyTreeName,
+                    Description = description,
+                    RowVersion = new byte[] { Byte.MinValue },
+                    CreatedAt = DateTime.UtcNow,
+                    LastUpdatedAt = DateTime.UtcNow,
+                    CreatorTreeId = creatorTree.Id,
+                    RootMemberId = creatorTree.Id,
+                };
 
-            _familyTreeContext.Add(familyTree);
-            await _familyTreeContext.SaveChangesAsync();
+                _familyTreeContext.Add(familyTree);
+                await _familyTreeContext.SaveChangesAsync();
+                var savedFamilyTree = await _familyTreeContext.familyTrees.FirstOrDefaultAsync(f => f.Id == familyTreeId);
+                if(savedFamilyTree != null)
+                {
+                    return savedFamilyTree;
+                }
+                else
+                {
+                    throw new Exception("Error while creating Family Tree");
+                }
+            }
+            catch (Exception e)
+            {
 
-            return await _familyTreeContext.familyTrees.FirstOrDefaultAsync(f => f.Id == familyTreeId);
+                throw new Exception("Error while creating Family Tree", e);
+            }
         }
 
     }

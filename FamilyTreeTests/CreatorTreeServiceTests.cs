@@ -67,6 +67,7 @@ namespace FamilyTreeAPI.Tests
                     Name = _creatorTree.FamilyTreeName,
                     CreatorTreeId = _creatorTree.Id,
                     CreatedAt = DateTime.UtcNow,
+                    RootMemberId = _creator.Id
                 };
                 _familyTreeId = _familyTree.Id;
                 context.Add(_familyTree);

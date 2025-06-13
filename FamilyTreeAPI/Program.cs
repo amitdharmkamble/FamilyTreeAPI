@@ -50,7 +50,7 @@ namespace FamilyTreeAPI
                     : Results.NotFound(new { Message = "Creator not found." });
             });
 
-            creatorItems.MapPost("/createFamilyTree", async (CreateFamilyTreeRequest request, FamilyTreeService service) =>
+            creatorItems.MapPost("/createFamilyTree", async (CreateFamilyTreeRequest request, ICreatorTreeService service) =>
             {
                 var familyTree = await service.CreateFamilyTree(request.CreatorId, 
                     request.FamilyTreeName ?? "", 
@@ -58,7 +58,6 @@ namespace FamilyTreeAPI
                     );
                 return familyTree;
             });
-
 
             app.Run();
         }
@@ -92,6 +91,7 @@ namespace FamilyTreeAPI
             builder.Services.AddDbContext<FamilyMemberContext>(options =>
                 options.UseSqlServer(GetConnectionString(builder))
             );
+            
             builder.Services.AddScoped<ICreatorRepo, CreatorRepo>();
             builder.Services.AddScoped<ICreatorTreeRepo, CreatorTreeRepo>();
             builder.Services.AddScoped<ICreatorService, CreatorService>();

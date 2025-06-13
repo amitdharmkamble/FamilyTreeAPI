@@ -23,9 +23,7 @@ namespace FamilyTreeAPI.Services
                     Id = Guid.NewGuid(),
                     FirstName = createCreatorRequest.FirstName,
                     LastName = createCreatorRequest.LastName,
-                    DateOfBirth = createCreatorRequest.DateOfBirth,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    DateOfBirth = createCreatorRequest.DateOfBirth
                 });
 
                 return createdCreatorId;

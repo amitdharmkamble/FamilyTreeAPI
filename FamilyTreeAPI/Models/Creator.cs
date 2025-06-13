@@ -2,7 +2,7 @@
 
 namespace FamilyTreeAPI.Models
 {
-    public class Creator
+    public class Creator : BaseAuditableEntity
     {
         [Key]
         public Guid Id { get; set; }
@@ -13,7 +13,5 @@ namespace FamilyTreeAPI.Models
         [MinLength(2)]
         public string LastName { get; set; } = "Doe";
         public DateTime? DateOfBirth { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FamilyTreeAPI.Contexts
 {
-    public class FamilyMemberContext : DbContext
+    public class FamilyMemberContext : BaseAuditableContext
     {
         public FamilyMemberContext(DbContextOptions<FamilyMemberContext> options) : base(options)
         {
