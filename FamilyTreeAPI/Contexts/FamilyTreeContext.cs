@@ -8,6 +8,6 @@ namespace FamilyTreeAPI.Contexts
         public FamilyTreeContext(DbContextOptions<FamilyTreeContext> options) : base(options)
         {
         }
-        public DbSet<FamilyTree> familyTrees { get; set; } = null!;
+        public DbSet<FamilyTree> FamilyTrees { get; set; } = null!;
     }
 }

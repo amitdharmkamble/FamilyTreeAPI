@@ -31,11 +31,8 @@ namespace FamilyTreeAPI
 
             var creatorItems = app.MapGroup("/api");
 
-            creatorItems.MapPost("/createcreator", async (string firstName, string lastName, ICreatorService service) =>
+            creatorItems.MapPost("/createcreator", async (CreateCreatorRequest request, ICreatorService service) =>
             {
-                CreateCreatorRequest request = new CreateCreatorRequest();
-                request.FirstName = firstName;
-                request.LastName = lastName;
                 Guid result = await service.AddCreatorAsync(request);
                 return result != Guid.Empty
                     ? Results.Ok(new { Message = "Creator created successfully.", CreatedCreatorId = result })

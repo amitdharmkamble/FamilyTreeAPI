@@ -82,7 +82,7 @@ namespace FamilyTreeAPI.Repositories
 
                 _familyTreeContext.Add(familyTree);
                 await _familyTreeContext.SaveChangesAsync();
-                var savedFamilyTree = await _familyTreeContext.familyTrees.FirstOrDefaultAsync(f => f.Id == familyTreeId);
+                var savedFamilyTree = await _familyTreeContext.FamilyTrees.FirstOrDefaultAsync(f => f.Id == familyTreeId);
                 if(savedFamilyTree != null)
                 {
                     return savedFamilyTree;

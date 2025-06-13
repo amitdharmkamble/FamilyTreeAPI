@@ -72,7 +72,7 @@ namespace FamilyTreeAPI.Tests
                 _familyTreeId = _familyTree.Id;
                 context.Add(_familyTree);
                 context.SaveChanges();
-                var createdFamilyTree = context.familyTrees.FirstOrDefault(c => c.Id == _familyTreeId);
+                var createdFamilyTree = context.FamilyTrees.FirstOrDefault(c => c.Id == _familyTreeId);
                 Assert.NotNull(createdFamilyTree);
                 Assert.Equal(createdFamilyTree?.Id, _familyTreeId);
                 Assert.Equal(createdFamilyTree?.CreatorTreeId, _creatorTree.Id);
